@@ -2,16 +2,17 @@
 #define ROTOR_H
 
 #include <string>
+#include "component.h"
 
 using namespace std;
 
-class Rotor {
+class Rotor : public Component {
     private:
-        string this_encoding;
         Rotor();
-
+		
     public:
-        Rotor(string encoding);
+        Rotor(int* config);
+		virtual int map(int orig);
 };
 
 #endif

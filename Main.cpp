@@ -2,15 +2,15 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+
 #include "enigma.h"
-#include "reflector.h"
-#include "plugboard.h"
-#include "rotor.h"
 
 using namespace std;
 
-int main(int argc, char **argv)
-{
-  cout << "TODO: implement an Enigma machine" << endl;
-  return 0;
+int main(int argc, char **argv) {
+	Enigma machine;
+	ifstream stream("rotors/I.rot", ifstream::in);
+	
+	ifstream& streamRef = stream;
+	machine.addRotor(streamRef);
 }

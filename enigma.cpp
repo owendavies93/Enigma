@@ -1,11 +1,18 @@
 #include "enigma.h"
+#include "rotor.h"
 #include <string>
-#include <tr1/memory>
+#include <iostream>
+#include <fstream>
 
-using namespace std;
+const int alphabetLength = 26;
 
-void Enigma::addRotor(string encoding) {
-    Rotor rot(encoding);
+void Enigma::addRotor(ifstream& config) {
+	int indicies[alphabetLength];
+	
+	for (int i = 0; i < alphabetLength; i++) {
+		config >> indicies[i];
+	}
+	
+    Rotor rot(indicies);
     this_rotors.push_back(rot);
 }
-

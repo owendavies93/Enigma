@@ -1,5 +1,12 @@
+#include <iostream>
 #include "rotor.h"
 
-Rotor::Rotor(string encoding) {
-    this_encoding = encoding;
+using namespace std;
+
+Rotor::Rotor(int* config) {
+
+}
+
+int Rotor::map(int orig) {
+	return 0;
 }
