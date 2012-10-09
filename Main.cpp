@@ -2,6 +2,10 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include "enigma.h"
+#include "reflector.h"
+#include "plugboard.h"
+#include "rotor.h"
 
 using namespace std;
 
