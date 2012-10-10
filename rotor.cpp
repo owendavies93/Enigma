@@ -14,7 +14,7 @@ Rotor::Rotor(int* config, int num) {
 }
 
 char Rotor::map(char orig) {
-	return _config[orig];
+	return 0;
 }
 
 string Rotor::getName() {

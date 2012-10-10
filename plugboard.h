@@ -10,13 +10,13 @@ private:
 	int* _config;
 	int _size;
 	std::map<int, int> _in;
-	std::map<int, int> _out;
 	Plugboard();
 	void fillMaps();
 
 public:
 	Plugboard(int* config, int& size);
 	virtual char map(char input);
+	void printMaps();
 };
 
 #endif

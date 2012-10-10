@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 	//Parse .pb file to give to plugboard (via Enigma)
     int plugs[26];
     int size = 0;
-    ifstream plugboardStream(argv[argc], ifstream::in);
+    ifstream plugboardStream(argv[argc - 1], ifstream::in);
 
 	while (plugboardStream >> plugs[size]) {
 		++size;
@@ -30,7 +30,9 @@ int main(int argc, char **argv) {
         machine.addRotor(streamRef, i);
     }
 
-    string inputString = "AAAAAAAAAAAAAAAAAAAAAAAAAA";
+    string inputString = "A";
 
+    machine.printPlugboard();
+    
     machine.encrypt(inputString);
 }

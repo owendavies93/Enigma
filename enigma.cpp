@@ -36,11 +36,11 @@ void Enigma::printRotors() {
 }
 
 void Enigma::printPlugboard() {
-
+	_pb.printMaps();
 }
 
 void Enigma::encrypt(string input) {
-	for(unsigned i = 0; i < input.length(); i++) {
+	for (unsigned i = 0; i < input.length(); i++) {
     	cout << encryptChar(input[i]);
 	}
 	cout << endl;
@@ -55,6 +55,6 @@ char Enigma::encryptChar(char input) {
 
 	//send char back thorugh plugboard
 	input = _pb.map(input);
-	
+
 	return input;
 }
