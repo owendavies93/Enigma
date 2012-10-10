@@ -1,9 +1,12 @@
-#define REFLECTER_H
 #ifndef REFLECTER_H
+#define REFLECTER_H
 
-#include "component"
+#include "component.h"
 
-class Rotor : public Component {
+class Reflector : public Component {
+
+public:
+	virtual int map(int orig) = 0;
 
 };
 

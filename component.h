@@ -3,8 +3,8 @@
 
 class Component {
 	
-	public:
-		virtual int map(int orig) = 0;
+public:
+	virtual int map(int orig) = 0;
 	
 };
 

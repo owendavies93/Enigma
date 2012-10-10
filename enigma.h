@@ -9,11 +9,12 @@
 using namespace std;
 
 class Enigma {
-    private:
-        vector<Rotor> this_rotors;
-		
-    public:
-        void addRotor(ifstream& config);
+private:
+    vector<Rotor> this_rotors;
+	
+public:
+    void addRotor(ifstream& config);
+    void createPlugboard(ifstream& config);
 };
 
 #endif

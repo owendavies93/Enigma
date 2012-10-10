@@ -9,8 +9,8 @@ using namespace std;
 
 int main(int argc, char **argv) {
 	Enigma machine;
-	ifstream stream("rotors/I.rot", ifstream::in);
-	
+	ifstream stream("plugboards/I.pb", ifstream::in);
+
 	ifstream& streamRef = stream;
-	machine.addRotor(streamRef);
+	machine.createPlugboard(streamRef);
 }
