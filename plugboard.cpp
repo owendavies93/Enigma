@@ -1,6 +1,7 @@
-#include "plugboard.h"
 #include <iostream>
 #include <map>
+
+#include "plugboard.h"
 
 using namespace std;
 
@@ -20,4 +21,5 @@ void Plugboard::fillMaps() {
 		_in.insert(pair <int, int>(_config[i], _config[i + 1]));
 		_out.insert(pair <int, int>(_config[i + 1], _config[i]));
 	}
+
 }

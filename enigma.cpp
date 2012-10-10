@@ -3,8 +3,8 @@
 #include <fstream>
 
 #include "enigma.h"
-#include "rotor.h"
 #include "plugboard.h"
+#include "rotor.h"
 
 const int alphabetLength = 26;
 

@@ -1,10 +1,11 @@
 #ifndef ENIGMA_H
 #define ENIGMA_H
 
-#include "rotor.h"
-#include <vector>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <vector>
+
+#include "rotor.h"
 
 using namespace std;
 
