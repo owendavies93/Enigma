@@ -14,13 +14,16 @@ Enigma::Enigma(int* plugboardConfig, int size) : _pb(plugboardConfig, size), _rf
 }
 
 void Enigma::addRotor(ifstream& config, int number) {
-	int indicies[alphabetLength]; //Array index represents original value
+	map<int, int> inMap, outMap;
 	
 	for (int i = 0; i < alphabetLength; i++) {
-		config >> indicies[i];
+		int val;
+		config >> val;
+		inMap.insert(pair <int, int>(i, val));
+		outMap.insert(pair <int, int>(val, i));
 	}
 	
-    Rotor rot(indicies, number);
+    Rotor rot(inMap, outMap, number);
     _rotors.push_back(rot);
 
     cout << "Rotor assembled." << endl;
@@ -50,11 +53,43 @@ char Enigma::encryptChar(char input) {
 	//send char throguh plugboard
 	input = _pb.map(input);
 
+	//cout << "after plugboard: " << input << endl;
+
+
+
+
+	vector<Rotor>::iterator it;
+	
+  	for (it = _rotors.begin(); it < _rotors.end(); it++) {
+    	input = it->map(input);
+  	}
+
+	//cout << "after rotor: " << input << endl;
+
+
+
+
 	//reflect char
 	input = _rf.map(input);
 
+	//cout << "after reflect: " << input << endl;
+
+
+
+
+  	for (it = _rotors.begin(); it < _rotors.end(); it++) {
+    	input = it->map(input);
+  	}
+
+	//cout << "after rotor: " << input << endl;
+
+
+
+
 	//send char back thorugh plugboard
 	input = _pb.map(input);
+
+	//cout << "after plugboard: " << input << endl;
 
 	return input;
 }

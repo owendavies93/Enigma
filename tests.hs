@@ -53,7 +53,7 @@ theBasicTests = concatMap mkReverses $
   , ("AAAAAAAAAAAAAAAAAAAAAAAAAA", ["rotors/I.rot", "plugboards/I.pb"], "NNNNNNNNNNNNNNNNNNNNNNNNNN")
   , ("ZZZZZZZZZZZZZZZZZZZZZZZZZZ", ["rotors/I.rot", "plugboards/I.pb"], "VVVVVVVVVVVVVVVVVVVVVVVVVV")
   , ("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 , ["rotors/I.rot", "rotors/II.rot", "plugboards/null.pb"]
+                                 , ["rtoors/I.rot", "rotors/II.rot", "plugboards/null.pb"]
                                  , "LLLLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPPPPPPP")
   , ("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                  , ["rotors/I.rot", "rotors/II.rot", "plugboards/IV.pb"]
