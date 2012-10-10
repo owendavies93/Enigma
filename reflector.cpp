@@ -1,5 +1,7 @@
+#include <iostream>
+
 #include "reflector.h"
 
-int Reflector::map(int letter) {
-	return (letter + 13) % 26;
+char Reflector::map(char letter) {
+	return (char) (((letter - 64) + 13) % 26) + 64;
 }

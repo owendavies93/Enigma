@@ -5,13 +5,13 @@
 
 using namespace std;
 
-Plugboard::Plugboard(int* config, int size) {
+Plugboard::Plugboard(int* config, int& size) {
 	_config = config;
 	_size = size;
 	fillMaps();
 }
 
-int Plugboard::map(int orig) {
+char Plugboard::map(char orig) {
 	return 0;
 }
 
@@ -22,4 +22,5 @@ void Plugboard::fillMaps() {
 		_out.insert(pair <int, int>(_config[i + 1], _config[i]));
 	}
 
+	cout << "Plugboard assembled." << endl;
 }

@@ -15,8 +15,8 @@ private:
 	void fillMaps();
 
 public:
-	Plugboard(int* config, int size);
-	virtual int map(int config);
+	Plugboard(int* config, int& size);
+	virtual char map(char input);
 };
 
 #endif

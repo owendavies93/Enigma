@@ -8,25 +8,29 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-    cout << "Engima machine started." << endl;
+	//Parse .pb file to give to plugboard (via Enigma)
+    int plugs[26];
+    int size = 0;
+    ifstream plugboardStream(argv[argc], ifstream::in);
 
-    Enigma machine;
+	while (plugboardStream >> plugs[size]) {
+		++size;
+	}
+
+	//Create machine, with plugboard
+    Enigma machine(plugs, size);
     vector<ifstream*> streams;
 
-    for (int i = 1; i < argc; i++) {
+    //Create rotors if necessary
+    for (int i = 1; i < argc - 1; i++) {
         ifstream rotorStream(argv[i], ifstream::in);
         streams.push_back(&rotorStream);
 
         ifstream& streamRef = rotorStream;
-        machine.addRotor(streamRef);
+        machine.addRotor(streamRef, i);
     }
 
-    cout << "Rotors assembled." << endl;
+    string inputString = "AAAAAAAAAAAAAAAAAAAAAAAAAA";
 
-    ifstream plugboardStream(argv[argc], ifstream::in);
-    ifstream& plugboardStreamRef = plugboardStream;
-
-    machine.createPlugboard(plugboardStreamRef);
-
-    cout << "Plugboard assembled." << endl;
+    machine.encrypt(inputString);
 }
