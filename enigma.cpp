@@ -44,7 +44,7 @@ void Enigma::printPlugboard() {
 
 void Enigma::encrypt(string input) {
 	for (unsigned i = 0; i < input.length(); i++) {
-    	cout << encryptChar(input[i]);
+    	cout << encryptChar(input[i]) << endl;
 	}
 	cout << endl;
 }
@@ -53,18 +53,19 @@ char Enigma::encryptChar(char input) {
 	//send char throguh plugboard
 	input = _pb.map(input);
 
-	//cout << "after plugboard: " << input << endl;
+	cout << "after plugboard: " << input << endl;
 
 
 
 
 	vector<Rotor>::iterator it;
 	
-  	for (it = _rotors.begin(); it < _rotors.end(); it++) {
+  	for (it = _rotors.begin(); it < _rotors.end(); ++it) {
+  		cout << it->getName() << endl;
     	input = it->map(input);
+		cout << "after rotor: " << input << endl;
   	}
 
-	//cout << "after rotor: " << input << endl;
 
 
 
@@ -72,16 +73,18 @@ char Enigma::encryptChar(char input) {
 	//reflect char
 	input = _rf.map(input);
 
-	//cout << "after reflect: " << input << endl;
+	cout << "after reflect: " << input << endl;
 
 
 
-
-  	for (it = _rotors.begin(); it < _rotors.end(); it++) {
-    	input = it->map(input);
+	vector<Rotor>::reverse_iterator rit;
+	
+  	for (rit = _rotors.rbegin(); rit != _rotors.rend(); ++rit) {
+  		cout << rit->getName() << endl;
+    	input = rit->map(input);
+		cout << "after rotor: " << input << endl;
   	}
 
-	//cout << "after rotor: " << input << endl;
 
 
 
@@ -89,7 +92,7 @@ char Enigma::encryptChar(char input) {
 	//send char back thorugh plugboard
 	input = _pb.map(input);
 
-	//cout << "after plugboard: " << input << endl;
+	cout << "after plugboard: " << input << endl;
 
 	return input;
 }
