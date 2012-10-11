@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
         machine.addRotor(streamRef, i);
     }
 
-    string inputString = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    string inputString = "AAAAAAAAAAAAAA";
     
     machine.encrypt(inputString);
 }

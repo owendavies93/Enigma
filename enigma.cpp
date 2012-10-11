@@ -35,7 +35,8 @@ void Enigma::printRotors() {
 	cout << "_rotors contains:" << endl;
   	for (it = _rotors.begin(); it < _rotors.end(); it++) {
     	cout << it->getName() << endl;
-  	}
+  	    it->printRotor();
+    }
 }
 
 void Enigma::printPlugboard() {
@@ -44,7 +45,7 @@ void Enigma::printPlugboard() {
 
 void Enigma::encrypt(string input) {
 	for (unsigned i = 0; i < input.length(); i++) {
-    	cout << encryptChar(input[i]) << endl;
+    	cout << encryptChar(input[i]);
 	}
 	cout << endl;
 }
@@ -52,47 +53,36 @@ void Enigma::encrypt(string input) {
 char Enigma::encryptChar(char input) {
 	//send char throguh plugboard
 	input = _pb.map(input);
+	//cout << "after plugboard: " << input << endl;
 
-	cout << "after plugboard: " << input << endl;
-
-
-
-
+    //send through rotors
 	vector<Rotor>::iterator it;
-	
   	for (it = _rotors.begin(); it < _rotors.end(); ++it) {
-  		cout << it->getName() << endl;
+  		//cout << it->getName() << endl;
     	input = it->map(input);
-		cout << "after rotor: " << input << endl;
+		//cout << "after rotor: " << input << endl;
+        //it->printRotor();
   	}
-
-
-
-
 
 	//reflect char
 	input = _rf.map(input);
+	//cout << "after reflect: " << input << endl;
 
-	cout << "after reflect: " << input << endl;
-
-
-
+	//send back through rotors
 	vector<Rotor>::reverse_iterator rit;
-	
   	for (rit = _rotors.rbegin(); rit != _rotors.rend(); ++rit) {
-  		cout << rit->getName() << endl;
+  		//cout << rit->getName() << endl;
     	input = rit->map(input);
-		cout << "after rotor: " << input << endl;
+		//cout << "after rotor: " << input << endl;
+        //rit->printRotor();
+		if (rit->getName() == "Rotor 1") {
+     	   rit->rotate();
+    	}
   	}
-
-
-
-
 
 	//send char back thorugh plugboard
 	input = _pb.map(input);
-
-	cout << "after plugboard: " << input << endl;
+	//cout << "after plugboard: " << input << endl;
 
 	return input;
 }
