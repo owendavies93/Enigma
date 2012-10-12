@@ -34,7 +34,6 @@ int main(int argc, char **argv) {
         machine.addRotor(streamRef, i);
     }
 
-    string inputString = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-    machine.printRotors();
+    string inputString = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
     machine.encrypt(inputString);
 }

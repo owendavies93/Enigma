@@ -27,8 +27,6 @@ void Enigma::addRotor(ifstream& config, int number) {
 			)); //derives offset for reverse from original offset
 	}
 
-
-
     Rotor rot(inMap, outMap, number);
     _rotors.push_back(rot);
 
@@ -66,18 +64,15 @@ char Enigma::encryptChar(char input) {
 	vector<Rotor>::iterator it;
   	for (it = _rotors.begin(); it < _rotors.end(); ++it) {
     	conv = it->map(conv);
-  		//cout << conv << endl;
   	}
 
 	//reflect char
 	conv = _rf.map(conv);
-	//cout << conv << endl;
 
 	//send back through rotors
 	vector<Rotor>::reverse_iterator rit;
   	for (rit = _rotors.rbegin(); rit != _rotors.rend(); ++rit) {
     	conv = rit->map(conv);
-    	//cout << conv << endl;
     }
     rotateRotors(0);
 

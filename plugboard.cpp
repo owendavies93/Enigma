@@ -20,7 +20,7 @@ int Plugboard::map(int orig) {
 }
 
 void Plugboard::fillMaps() {
-	for (int i = 0; i < _size / 2; i+=2) {
+	for (int i = 0; i < _size; i+=2) {
 		_in.insert(pair <int, int>(_config[i], _config[i + 1]));
 		_in.insert(pair <int, int>(_config[i + 1], _config[i]));
 	}
