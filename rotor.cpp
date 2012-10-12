@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "rotor.h"
 
@@ -10,25 +11,24 @@ using namespace std;
 Rotor::Rotor(std::map<int, int> inMap, std::map<int, int> outMap, int num) {
 	_inConfig = inMap;
 	_outConfig = outMap;
-	status = 0; //DO THIS WITH AN ENUM
+    _status = IN;
 
 	stringstream ss;
 	ss << "Rotor " << num;
 	_name = ss.str();
+    _rotateCount = _rotateModCount = 0;
 }
 
-char Rotor::map(char orig) {
-	int conv = (((int) orig) - 65) % 26;
-
-	if (!status) {
-		status = 1;
-		return (char) ((_inConfig.find(conv)->second) + 65);
+int Rotor::map(int orig) {
+	if (_status == IN) {
+        orig += _inConfig.find((orig + _rotateModCount) % 26)->second;
+		_status = OUT;
+		return orig % 26;
 	} else {
-		status = 0;
-		return (char) ((_outConfig.find(conv)->second) + 65);
+        orig += _outConfig.find((orig + _rotateModCount) % 26)->second;
+		_status = IN;
+		return orig % 26;
 	}
-
-
 }
 
 string Rotor::getName() {
@@ -36,46 +36,16 @@ string Rotor::getName() {
 }
 
 void Rotor::rotate() {
-    rotateForward();
-    rotateBackward(_outConfig);
+    _rotateCount++;
+    _rotateModCount = _rotateCount % 26;
 }
 
-void Rotor::rotateForward() {
-	vector<int> values(_inConfig.size());
-	int j = 0;
-	std::map<int, int>::iterator it;
-
-	for (it = _inConfig.begin(); it != _inConfig.end(); it++) {
-		values[j] = it->second;
-        j++;
-	}
-    
-	j = 1;
-
-	for (it = _inConfig.begin(); it != _inConfig.end(); ++it) {
-        _inConfig[it->first] = values[j % _inConfig.size()];
-        j++;
-	} 
+int Rotor::getRotateCount() {
+    return _rotateCount;
 }
 
-void Rotor::rotateBackward(std::map<int, int>& m) {
-    vector<int> values(m.size());
-    
-    int j = 0;
-    std::map<int, int>::iterator it;
-
-    for (it = m.begin(); it != m.end(); ++it) {
-        values[j] = it->second;
-        j++;
-    }
-
-    j = 25;
-
-    for (it = m.begin(); it != m.end(); ++it) {
-        m[it->first] = values[j % m.size()];
-        j++;
-    }
-    
+int Rotor::getRotateModCount() {
+    return _rotateModCount;
 }
 
 void Rotor::printRotor() {
@@ -87,8 +57,8 @@ void Rotor::printRotor() {
 
     cout << endl;
 
-    /*for (it = _outConfig.begin(); it != _outConfig.end(); ++it) {
+    for (it = _outConfig.begin(); it != _outConfig.end(); ++it) {
         cout << it->first << " => " << it->second << endl;
-    }*/
+    }
 
 }

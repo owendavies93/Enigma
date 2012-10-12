@@ -8,22 +8,28 @@
 
 using namespace std;
 
+enum status_t {IN, OUT};
+
 class Rotor : public Component {
 private:
-	int status;
+    Rotor();
+	status_t _status;
 	std::map<int, int> _inConfig;
 	std::map<int, int> _outConfig;
 	string _name;
-    Rotor();
+    int _rotateModCount;
+    int _rotateCount;
     void rotateForward();
     void rotateBackward(std::map<int, int>& m);
 		
 public:
     Rotor(std::map<int, int> inMap, std::map<int, int> outMap, int num);
-	virtual char map(char orig);
+	virtual int map(int orig);
 	string getName();
     void rotate();
     void printRotor();
+    int getRotateCount();
+    int getRotateModCount();
 };
 
 #endif

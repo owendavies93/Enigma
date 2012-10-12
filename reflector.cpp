@@ -2,7 +2,6 @@
 
 #include "reflector.h"
 
-char Reflector::map(char letter) {
-	//DOESN'T WORK FOR M
-	return (char) (((letter - 64) + 13) % 26) + 64;
+int Reflector::map(int letter) {
+	return (letter + 13) % 26;
 }

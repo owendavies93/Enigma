@@ -6,7 +6,7 @@
 class Reflector : public Component {
 
 public:
-	virtual char map(char orig);
+	virtual int map(int orig);
 
 };
 

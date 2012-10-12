@@ -4,7 +4,7 @@
 class Component {
 	
 public:
-	virtual char map(char orig) = 0;
+	virtual int map(int orig) = 0;
 	
 };
 

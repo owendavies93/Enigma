@@ -25,6 +25,7 @@ public:
     void printPlugboard();
     void encrypt(string input);
     char encryptChar(char input);
+    void rotateRotors(int);
 };
 
 #endif

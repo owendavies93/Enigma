@@ -15,7 +15,7 @@ private:
 
 public:
 	Plugboard(int* config, int& size);
-	virtual char map(char input);
+	virtual int map(int input);
 	void printMaps();
 };
 

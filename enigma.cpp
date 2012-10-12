@@ -19,10 +19,16 @@ void Enigma::addRotor(ifstream& config, int number) {
 	for (int i = 0; i < alphabetLength; i++) {
 		int val;
 		config >> val;
-		inMap.insert(pair <int, int>(i, val));
-		outMap.insert(pair <int, int>(val, i));
+		inMap.insert(pair <int, int>(i, (val - i + 26) % 26));
+
+		outMap.insert(pair <int, int>(
+			(((val - i + 26) % 26) + i) % 26, 
+			(26 - ((val - i + 26) % 26)) % 26
+			)); //derives offset for reverse from original offset
 	}
-	
+
+
+
     Rotor rot(inMap, outMap, number);
     _rotors.push_back(rot);
 
@@ -43,46 +49,48 @@ void Enigma::printPlugboard() {
 	_pb.printMaps();
 }
 
-void Enigma::encrypt(string input) {
-	for (unsigned i = 0; i < input.length(); i++) {
-    	cout << encryptChar(input[i]);
+void Enigma::encrypt(string conv) {
+	for (unsigned i = 0; i < conv.length(); i++) {
+       cout << encryptChar(conv[i]);
 	}
 	cout << endl;
 }
 
 char Enigma::encryptChar(char input) {
+	int conv = (((int) input) - 65) % 26;
+
 	//send char throguh plugboard
-	input = _pb.map(input);
-	//cout << "after plugboard: " << input << endl;
+	conv = _pb.map(conv);
 
     //send through rotors
 	vector<Rotor>::iterator it;
   	for (it = _rotors.begin(); it < _rotors.end(); ++it) {
-  		//cout << it->getName() << endl;
-    	input = it->map(input);
-		//cout << "after rotor: " << input << endl;
-        //it->printRotor();
+    	conv = it->map(conv);
+  		//cout << conv << endl;
   	}
 
 	//reflect char
-	input = _rf.map(input);
-	//cout << "after reflect: " << input << endl;
+	conv = _rf.map(conv);
+	//cout << conv << endl;
 
 	//send back through rotors
 	vector<Rotor>::reverse_iterator rit;
   	for (rit = _rotors.rbegin(); rit != _rotors.rend(); ++rit) {
-  		//cout << rit->getName() << endl;
-    	input = rit->map(input);
-		//cout << "after rotor: " << input << endl;
-        //rit->printRotor();
-		if (rit->getName() == "Rotor 1") {
-     	   rit->rotate();
-    	}
-  	}
+    	conv = rit->map(conv);
+    	//cout << conv << endl;
+    }
+    rotateRotors(0);
 
 	//send char back thorugh plugboard
-	input = _pb.map(input);
-	//cout << "after plugboard: " << input << endl;
+	conv = _pb.map(conv);
 
-	return input;
+	return (char) (conv + 65);
 }
+
+void Enigma::rotateRotors(int num) {
+    _rotors[num].rotate();
+    if ((_rotors[num].getRotateModCount() == 0) && (num + 1 != _rotors.size())) {
+        rotateRotors(num + 1);
+    }
+}
+

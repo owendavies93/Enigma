@@ -11,13 +11,11 @@ Plugboard::Plugboard(int* config, int& size) {
 	fillMaps();
 }
 
-char Plugboard::map(char orig) {
-	int conv = ((int) orig) - 64;
-
-	if (_in.find(conv) == _in.end()) {
+int Plugboard::map(int orig) {
+	if (_in.find(orig) == _in.end()) {
 		return orig;
 	} else {
-		return (char) (_in.find(conv)->second + 64);
+		return _in.find(orig)->second;
 	}
 }
 

@@ -13,6 +13,10 @@ int main(int argc, char **argv) {
     int size = 0;
     ifstream plugboardStream(argv[argc - 1], ifstream::in);
 
+    if (plugboardStream.fail()) {
+
+    }
+
 	while (plugboardStream >> plugs[size]) {
 		++size;
 	}
@@ -30,7 +34,7 @@ int main(int argc, char **argv) {
         machine.addRotor(streamRef, i);
     }
 
-    string inputString = "AAAAAAAAAAAAAA";
-    
+    string inputString = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    machine.printRotors();
     machine.encrypt(inputString);
 }
