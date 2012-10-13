@@ -11,6 +11,12 @@
 using namespace std;
 
 int main(int argc, char **argv) {
+    if (argc < 2) {
+        cerr << "Error - Not enough arguments given. " <<
+                 "You need at least a plugboard!" << endl;
+        _exit(1);
+    }
+
 	// Parse .pb file to give to plugboard (via Enigma)
     int plugs[26];
     int size = 0;
