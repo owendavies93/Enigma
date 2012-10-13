@@ -11,7 +11,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-	//Parse .pb file to give to plugboard (via Enigma)
+	// Parse .pb file to give to plugboard (via Enigma)
     int plugs[26];
     int size = 0;
 
@@ -28,10 +28,10 @@ int main(int argc, char **argv) {
         _exit(1);
     }
 
-	//Create machine, with plugboard
+	// Create machine, with plugboard
     Enigma machine(plugs, size);
 
-    //Create rotors if necessary
+    // Create rotors if necessary
     for (int i = 1; i < argc - 1; i++) {
         try {
             ifstream rotorStream(argv[i], ifstream::in);
@@ -50,6 +50,4 @@ int main(int argc, char **argv) {
     string inputString;
     cin >> inputString;
     machine.encrypt(inputString);
-
-   
 }

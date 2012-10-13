@@ -8,6 +8,8 @@
 
 using namespace std;
 
+const int alphabetLength = 26;
+
 Rotor::Rotor(std::map<int, int> inMap, std::map<int, int> outMap, int num) {
 	_inConfig = inMap;
 	_outConfig = outMap;
@@ -21,13 +23,15 @@ Rotor::Rotor(std::map<int, int> inMap, std::map<int, int> outMap, int num) {
 
 int Rotor::map(int orig) {
 	if (_status == IN) {
-        orig += _inConfig.find((orig + _rotateModCount) % 26)->second;
+        orig += 
+            _inConfig.find((orig + _rotateModCount) % alphabetLength)->second;
 		_status = OUT;
-		return orig % 26;
+		return orig % alphabetLength;
 	} else {
-        orig += _outConfig.find((orig + _rotateModCount) % 26)->second;
+        orig += 
+            _outConfig.find((orig + _rotateModCount) % alphabetLength)->second;
 		_status = IN;
-		return orig % 26;
+		return orig % alphabetLength;
 	}
 }
 
@@ -37,7 +41,7 @@ string Rotor::getName() {
 
 void Rotor::rotate() {
     _rotateCount++;
-    _rotateModCount = _rotateCount % 26;
+    _rotateModCount = _rotateCount % alphabetLength;
 }
 
 int Rotor::getRotateCount() {

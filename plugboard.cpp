@@ -31,7 +31,7 @@ void Plugboard::fillMaps() {
 void Plugboard::printMaps() {
 	std::map<int, int>::iterator it;
 
-	cout << "_in contains:\n";
+	cout << "Plugboard contains: " << endl;
   	for (it = _in.begin(); it != _in.end(); it++) {
     	cout << it->first << " => " << it->second << endl;
     }

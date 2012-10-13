@@ -8,6 +8,7 @@
 #include "rotor.h"
 
 const int alphabetLength = 26;
+const int asciiStart= 65;
 
 Enigma::Enigma(int* plugboardConfig, int size) : _pb(plugboardConfig, size), _rf() {
 	cout << "Reflector assembled." << endl;
@@ -19,12 +20,13 @@ void Enigma::addRotor(ifstream& config, int number) {
 	for (int i = 0; i < alphabetLength; i++) {
 		int val;
 		config >> val;
-		inMap.insert(pair <int, int>(i, (val - i + 26) % 26));
+		int target = (val - i + alphabetLength) % alphabetLength;
+		inMap.insert(pair <int, int>(i, target));
 
-		outMap.insert(pair <int, int>(
-			(((val - i + 26) % 26) + i) % 26, 
-			(26 - ((val - i + 26) % 26)) % 26
-			)); //derives offset for reverse from original offset
+		// Derive offset for reverse from original offset
+		outMap.insert(pair <int, int>((target + i) % alphabetLength, 
+									  (alphabetLength - target) % alphabetLength
+									  )); 
 	}
 
     Rotor rot(inMap, outMap, number);
@@ -55,36 +57,40 @@ void Enigma::encrypt(string conv) {
 }
 
 char Enigma::encryptChar(char input) {
-	int conv = (((int) input) - 65) % 26;
+	int conv = (((int) input) - asciiStart) % alphabetLength;
 
-	//send char throguh plugboard
+	// Send character throguh plugboard
 	conv = _pb.map(conv);
 
-    //send through rotors
+    // Send forward through rotors
 	vector<Rotor>::iterator it;
   	for (it = _rotors.begin(); it < _rotors.end(); ++it) {
     	conv = it->map(conv);
   	}
 
-	//reflect char
+	// Reflect character
 	conv = _rf.map(conv);
 
-	//send back through rotors
+	// Send back through rotors
 	vector<Rotor>::reverse_iterator rit;
   	for (rit = _rotors.rbegin(); rit != _rotors.rend(); ++rit) {
     	conv = rit->map(conv);
     }
-    rotateRotors(0);
+    if ((int) _rotors.size() > 0) {
+    	rotateRotors(0);
+	}
 
-	//send char back thorugh plugboard
+	// Send back thorugh plugboard
 	conv = _pb.map(conv);
 
-	return (char) (conv + 65);
+	return (char) (conv + asciiStart);
 }
 
+// Rotates the current rotor and then checks the next rotor recursively
 void Enigma::rotateRotors(int num) {
     _rotors[num].rotate();
-    if ((_rotors[num].getRotateModCount() == 0) && (num + 1 != _rotors.size())) {
+    if ((_rotors[num].getRotateModCount() == 0) && 
+    	(num + 1 != (int) _rotors.size())) {
         rotateRotors(num + 1);
     }
 }

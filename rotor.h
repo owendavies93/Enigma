@@ -8,7 +8,8 @@
 
 using namespace std;
 
-enum status_t {IN, OUT};
+enum status_t {IN, OUT}; // Used to decide if _inConfig or _outConfig should be 
+						 // used to map the input character
 
 class Rotor : public Component {
 private:

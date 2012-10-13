@@ -11,6 +11,11 @@
 
 using namespace std;
 
+/*
+    This class simulates the Enigma machine, initialising the plug board and 
+    reflector, creating the rotors (if specified in the command line options), 
+    and encrypting the message given to the program one character at a time.
+*/
 class Enigma {
 private:
     Enigma();
