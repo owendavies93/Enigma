@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cctype>
 
 #include "enigma.h"
 #include "plugboard.h"
@@ -10,8 +11,8 @@
 const int alphabetLength = 26;
 const int asciiStart= 65;
 
-Enigma::Enigma(int* plugboardConfig, int size) : _pb(plugboardConfig, size), _rf() {
-	cout << "Reflector assembled." << endl;
+Enigma::Enigma(int* plugboardConfig, int size) : _pb(plugboardConfig, size), 
+												 _rf() {
 }
 
 void Enigma::addRotor(ifstream& config, int number) {
@@ -31,8 +32,6 @@ void Enigma::addRotor(ifstream& config, int number) {
 
     Rotor rot(inMap, outMap, number);
     _rotors.push_back(rot);
-
-    cout << "Rotor assembled." << endl;
 }
 
 void Enigma::printRotors() {
@@ -57,33 +56,37 @@ void Enigma::encrypt(string conv) {
 }
 
 char Enigma::encryptChar(char input) {
-	int conv = (((int) input) - asciiStart) % alphabetLength;
+	if (!isspace(input)) {
+		int conv = (((int) input) - asciiStart) % alphabetLength;
 
-	// Send character throguh plugboard
-	conv = _pb.map(conv);
+		// Send character throguh plugboard
+		conv = _pb.map(conv);
 
-    // Send forward through rotors
-	vector<Rotor>::iterator it;
-  	for (it = _rotors.begin(); it < _rotors.end(); ++it) {
-    	conv = it->map(conv);
-  	}
+    	// Send forward through rotors
+		vector<Rotor>::iterator it;
+  		for (it = _rotors.begin(); it < _rotors.end(); ++it) {
+    		conv = it->map(conv);
+  		}
 
-	// Reflect character
-	conv = _rf.map(conv);
+		// Reflect character
+		conv = _rf.map(conv);
 
-	// Send back through rotors
-	vector<Rotor>::reverse_iterator rit;
-  	for (rit = _rotors.rbegin(); rit != _rotors.rend(); ++rit) {
-    	conv = rit->map(conv);
-    }
-    if ((int) _rotors.size() > 0) {
-    	rotateRotors(0);
+		// Send back through rotors
+		vector<Rotor>::reverse_iterator rit;
+  		for (rit = _rotors.rbegin(); rit != _rotors.rend(); ++rit) {
+   			conv = rit->map(conv);
+   		}
+    	if ((int) _rotors.size() > 0) {
+    		rotateRotors(0);
+		}
+
+		// Send back thorugh plugboard
+		conv = _pb.map(conv);
+
+		return (char) (conv + asciiStart);
+	} else {
+		return ' ';		
 	}
-
-	// Send back thorugh plugboard
-	conv = _pb.map(conv);
-
-	return (char) (conv + asciiStart);
 }
 
 // Rotates the current rotor and then checks the next rotor recursively

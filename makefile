@@ -12,6 +12,6 @@ reflector.o: reflector.cpp
 rotor.o:     rotor.cpp
 
 clean:
-	rm -rf enigma *.o
+	rm -rf enigma *.o tests tests.hi
 
 .phony: clean

@@ -24,8 +24,6 @@ void Plugboard::fillMaps() {
 		_in.insert(pair <int, int>(_config[i], _config[i + 1]));
 		_in.insert(pair <int, int>(_config[i + 1], _config[i]));
 	}
-
-	cout << "Plugboard assembled" << endl;
 }
 
 void Plugboard::printMaps() {
