@@ -12,8 +12,7 @@ const int alphabetLength = 26;
 const int asciiStart= 65;
 
 Enigma::Enigma(int* plugboardConfig, int size) : _pb(plugboardConfig, size), 
-												 _rf() {
-}
+												 _rf() {}
 
 void Enigma::addRotor(ifstream& config, int number) {
 	map<int, int> inMap, outMap;

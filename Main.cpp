@@ -10,6 +10,11 @@
 
 using namespace std;
 
+/*
+    Check that CL arguments are valid (correct extensions, valid files), then
+    provide cin for input, checking that all input is valid. Use the command :q 
+    to end the program cleanly.
+*/    
 int main(int argc, char **argv) {
     if (argc < 2) {
         cerr << "Error - Not enough arguments given. " <<
@@ -63,7 +68,7 @@ READ:
             close(0);
             cout << "Qutting..." << endl;
         } else {
-            int i =0;
+            int i = 0;
             while (inputString[i]) {
                 char curr = inputString[i];
                 if (!((isupper(curr) && isalpha(curr)) || isspace(curr))) {
