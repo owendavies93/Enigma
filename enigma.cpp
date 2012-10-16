@@ -96,4 +96,3 @@ void Enigma::rotateRotors(int num) {
         rotateRotors(num + 1);
     }
 }
-

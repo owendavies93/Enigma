@@ -6,6 +6,16 @@
 #include <string.h>
 #include <errno.h>
 
+//---------------------
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+
+//---------------------
+
 #include "enigma.h"
 
 using namespace std;

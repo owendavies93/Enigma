@@ -1,5 +1,5 @@
-#ifndef REFLECTER_H
-#define REFLECTER_H
+#ifndef REFLECTOR_H
+#define REFLECTOR_H
 
 #include "component.h"
 

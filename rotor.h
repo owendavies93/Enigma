@@ -31,6 +31,7 @@ public:
     void printRotor();
     int getRotateCount();
     int getRotateModCount();
+    std::map<int, int>& getMap();
 };
 
 #endif
