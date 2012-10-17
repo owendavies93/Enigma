@@ -13,18 +13,18 @@ enum status_t {IN, OUT}; // Used to decide if _inConfig or _outConfig should be
 
 class Rotor : public Component {
 private:
-    Rotor();
+	Rotor();
 	status_t _status;
 	std::map<int, int> _inConfig;
 	std::map<int, int> _outConfig;
 	string _name;
-    int _rotateModCount;
-    int _rotateCount;
-    void rotateForward();
-    void rotateBackward(std::map<int, int>& m);
+	int _rotateModCount;
+	int _rotateCount;
+	void rotateForward();
+	void rotateBackward(std::map<int, int>& m);
 		
 public:
-    Rotor(std::map<int, int> inMap, std::map<int, int> outMap, int num);
+	Rotor(std::map<int, int> inMap, std::map<int, int> outMap, int num);
 	virtual int map(int orig);
 	string getName();
     void rotate();
