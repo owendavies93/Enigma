@@ -28,7 +28,7 @@ public:
     void addRotor(ifstream& config, int number);
     void printRotors();
     void printPlugboard();
-    void encrypt(string input);
+    char* encrypt(char* input, bool networking);
     char encryptChar(char input);
     void rotateRotors(int);
 };

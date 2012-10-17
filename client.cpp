@@ -33,11 +33,11 @@ void Client::init(Enigma &machine) {
 	}
 
 	while(1) {
-		// writeSocket(_sockfd);
-		// readSocket(_sockfd);
 		bzero(_buffer, 256);
         cout << "Write message:" << endl << "> ";
         fgets(_buffer, 255, stdin);
+        strcpy(_buffer, machine.encrypt(_buffer, true));
+        cout << _buffer;
         int n = write(_sockfd, _buffer, strlen(_buffer));
         if (n < 0) {
             error("could not write to socket.");

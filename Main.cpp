@@ -106,17 +106,18 @@ int main(int argc, char **argv) {
             Client client(host, portno);
             client.init(machine);
         }
-    }
-
-    string inputString;
-    while (getline(cin, inputString)) {
-        if (inputString.find(":q") != string::npos) {
-            close(0);
-            cout << "Qutting..." << endl;
-        } else {
-            machine.encrypt(inputString);
+    } else {
+        string inputString;
+        while (getline(cin, inputString)) {
+            if (inputString.find(":q") != string::npos) {
+                close(0);
+                cout << "Qutting..." << endl;
+            } else {
+                vector<char> cpy(inputString.size() + 1);
+                copy(inputString.begin(), inputString.end(), cpy.begin());
+                machine.encrypt(&cpy[0], false);
+            }
         }
     }
-
     return 0;
 }
