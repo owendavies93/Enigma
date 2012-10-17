@@ -8,7 +8,7 @@ private:
 	struct hostent *_server;
 public:
 	Client(char * hostname, int portno);
-	virtual void init();
+	virtual void init(Enigma &machine);
 };
 
 #endif

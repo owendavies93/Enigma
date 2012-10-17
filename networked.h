@@ -12,6 +12,8 @@
 #include <iostream>
 #include <arpa/inet.h>
 
+#include "enigma.h"
+
 class Networked {
 	private:
 		static const int bufferLength = 256;
@@ -26,7 +28,7 @@ class Networked {
 		void readSocket(int socket);
 		void writeSocket(int socket);
 	public:
-		virtual void init() = 0;
+		virtual void init(Enigma &machine) = 0;
 };
 
 #endif

@@ -5,16 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-
-//---------------------
-
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-
-//---------------------
+#include <algorithm>
 
 #include "enigma.h"
 #include "server.h"
@@ -26,22 +17,48 @@ using namespace std;
     Check that CL arguments are valid (correct extensions, valid files), then
     provide cin for input, checking that all input is valid. Use the command :q 
     to end the program cleanly.
-*/    
-int main(int argc, char **argv) {
-    if (strcmp(argv[1], "server") == 0) {
-        Server s(atoi(argv[2]));
-        s.init();
+*/
+
+bool findOption(char** start, char** end, const string &option) {
+    return find(start, end, option);
+}
+
+char *getNextOption(char** start, char** end, const string &option) {
+    char** iter = find(start, end, option);
+    if (++iter != end) {
+        return *iter;
     } else {
-        Client c(argv[2], atoi(argv[3]));
-        c.init();
-    }
+        return 0;
+    };
+}
 
+int main(int argc, char **argv) {
 
-    /*if (argc < 2) {
+    if (argc < 2) {
         cerr << "Error - Not enough arguments given. " <<
                  "You need at least a plugboard!" << endl;
         _exit(1);
-    } else if (!strstr(argv[argc - 1], ".pb")) {
+    }
+
+    int portno;
+    char *host;
+    bool server;
+
+    if (findOption(argv, argv + argc, "-n")) {
+        char *option = getNextOption(argv, argv + argc, "-n");
+        if (strcmp(option, "server") == 0) {
+            portno = atoi(getNextOption(argv, argv + argc, "server"));
+            argc -= 3;
+            server = true;
+        } else if (strcmp(option, "client") == 0) {
+            host = getNextOption(argv, argv + argc, "client");
+            portno = atoi(getNextOption(argv, argv + argc, host));
+            argc -= 4;
+            server = false;
+        }
+    } 
+
+    else if (!strstr(argv[argc - 1], ".pb")) {
         cerr << "Error - You need to specify a .pb file for your plugboard " <<
                 "configuration." << endl;
         _exit(1);
@@ -81,7 +98,17 @@ int main(int argc, char **argv) {
         }
     }
 
-    string inputString;
+    if (findOption(argv, argv + (argc + 1), "-n")) {
+        if (server) {
+            Server server(portno);
+            server.init(machine);
+        } else {
+            Client client(host, portno);
+            client.init(machine);
+        }
+    }
+
+/*    string inputString;
 READ:
     while (getline(cin, inputString)) {
         if (inputString.find(":q") != string::npos) {

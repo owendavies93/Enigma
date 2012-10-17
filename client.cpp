@@ -10,7 +10,7 @@ Client::Client(char* hostname, int portno) {
 	}
 }
 
-void Client::init() {
+void Client::init(Enigma &machine) {
 	_sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (_sockfd < 0) {
 		error("could not open socket.");
@@ -40,15 +40,15 @@ void Client::init() {
         fgets(_buffer, 255, stdin);
         int n = write(_sockfd, _buffer, strlen(_buffer));
         if (n < 0) {
-            error("Error - could not write to socket.");
+            error("could not write to socket.");
         }
 
         bzero(_buffer, 256);
         n = read(_sockfd, _buffer, 255);
         if (n < 0) {
-            error("Error - could not read from socket.");
+            error("could not read from socket.");
         } else if (n == 0) {
-            error("Error - connection closed.");
+            error("connection closed.");
         }
         cout << _addr << "> " << _buffer << endl;
 	}
