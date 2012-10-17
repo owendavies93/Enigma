@@ -32,7 +32,6 @@ int main(int argc, char **argv) {
 
     try {
         ifstream plugboardStream(argv[argc - 1], ifstream::in);
-        //plugboardStream.exceptions(ifstream::failbit);
 
 	    while (plugboardStream >> plugs[size]) {
 	   	   ++size;
