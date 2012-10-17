@@ -108,27 +108,15 @@ int main(int argc, char **argv) {
         }
     }
 
-/*    string inputString;
-READ:
+    string inputString;
     while (getline(cin, inputString)) {
         if (inputString.find(":q") != string::npos) {
             close(0);
             cout << "Qutting..." << endl;
         } else {
-            int i = 0;
-            while (inputString[i]) {
-                char curr = inputString[i];
-                if (!((isupper(curr) && isalpha(curr)) || isspace(curr))) {
-                    cerr << "Error - input string must be alphabetic and " << 
-                            "upper case characters only (whitespace is also " << 
-                            "allowed)." << endl;
-                    goto READ;
-                }
-                i++;
-            }
             machine.encrypt(inputString);
         }
-    }*/
+    }
 
     return 0;
 }

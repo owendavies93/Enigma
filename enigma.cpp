@@ -49,7 +49,14 @@ void Enigma::printPlugboard() {
 
 void Enigma::encrypt(string conv) {
 	for (unsigned i = 0; i < conv.length(); i++) {
-	   cout << encryptChar(conv[i]);
+        char curr = conv[i];
+        if (!((isupper(curr) && isalpha(curr)) || isspace(curr))) {
+            cerr << "Error - input string must be alphabetic and " << 
+                    "upper case characters only (whitespace is also " << 
+                    "allowed)." << endl;
+			return;
+        }
+		cout << encryptChar(conv[i]);
 	}
 	cout << endl;
 }
