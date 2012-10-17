@@ -33,8 +33,24 @@ void Client::init() {
 	}
 
 	while(1) {
-		writeSocket(_sockfd);
-		readSocket(_sockfd);
+		// writeSocket(_sockfd);
+		// readSocket(_sockfd);
+		bzero(_buffer, 256);
+        cout << "Write message:" << endl << "> ";
+        fgets(_buffer, 255, stdin);
+        int n = write(_sockfd, _buffer, strlen(_buffer));
+        if (n < 0) {
+            error("Error - could not write to socket.");
+        }
+
+        bzero(_buffer, 256);
+        n = read(_sockfd, _buffer, 255);
+        if (n < 0) {
+            error("Error - could not read from socket.");
+        } else if (n == 0) {
+            error("Error - connection closed.");
+        }
+        cout << _addr << "> " << _buffer << endl;
 	}
 	close(_sockfd);
 }

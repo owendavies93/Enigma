@@ -34,8 +34,22 @@ void Server::init() {
 	}
 
 	while(1) {
-		readSocket(_newsockfd);
-		writeSocket(_newsockfd);
+		bzero(_buffer,256);
+        int n = read(_newsockfd, _buffer, 255);
+        if (n < 0) { 
+            error("Error - could not read from socket.");
+        } else if (n == 0) {
+            error("Error - connection closed.");
+        }
+        cout << _addr << "> " << _buffer << endl;
+
+        bzero(_buffer,256);
+        cout << "Write message:" << endl << "> ";
+        fgets(_buffer, 255, stdin);
+        n = write(_newsockfd, _buffer, strlen(_buffer));
+        if (n < 0) {
+            error("Error - could not write to socket.");
+        }
 	}
 	close(_newsockfd);
 	close(_sockfd);

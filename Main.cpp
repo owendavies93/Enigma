@@ -17,6 +17,8 @@
 //---------------------
 
 #include "enigma.h"
+#include "server.h"
+#include "client.h"
 
 using namespace std;
 
@@ -26,7 +28,16 @@ using namespace std;
     to end the program cleanly.
 */    
 int main(int argc, char **argv) {
-    if (argc < 2) {
+    if (strcmp(argv[1], "server") == 0) {
+        Server s(atoi(argv[2]));
+        s.init();
+    } else {
+        Client c(argv[2], atoi(argv[3]));
+        c.init();
+    }
+
+
+    /*if (argc < 2) {
         cerr << "Error - Not enough arguments given. " <<
                  "You need at least a plugboard!" << endl;
         _exit(1);
@@ -91,7 +102,7 @@ READ:
             }
             machine.encrypt(inputString);
         }
-    }
+    }*/
 
     return 0;
 }
