@@ -15,20 +15,20 @@
 #include "enigma.h"
 
 class Networked {
-	private:
-		static const int bufferLength = 256;
 	protected:
+		static const int bufferLength = 2048;
 		char _buffer[bufferLength];
 		struct sockaddr_in _serverAddress;
 		int _portno;
 		int _sockfd;
 		socklen_t _addressLength;
 		char _addr[INET_ADDRSTRLEN];
+		bool _verbose;
 		void error(const char *msg);
-		void readSocket(int socket);
-		void writeSocket(int socket);
+		void verbose(const char *msg);
 	public:
 		virtual void init(Enigma &machine) = 0;
+		void setVerboseFlag(bool setting);
 };
 
 #endif

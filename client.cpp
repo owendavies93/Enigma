@@ -11,11 +11,13 @@ Client::Client(char* hostname, int portno) {
 }
 
 void Client::init(Enigma &machine) {
+	verbose("Setting up socket...");
 	_sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (_sockfd < 0) {
 		error("could not open socket.");
 	}
 
+	verbose("Configuring server address settings...");
 	bzero((char *) &_serverAddress, sizeof(_serverAddress));
 	_serverAddress.sin_family = AF_INET;
 	bcopy((char *) _server->h_addr, (char *) &_serverAddress.sin_addr.s_addr, 
@@ -23,6 +25,7 @@ void Client::init(Enigma &machine) {
 
 	_serverAddress.sin_port = htons(_portno);
 	_addressLength = sizeof(_serverAddress);
+	verbose("Attemping to connect...");
 
 	if (connect(_sockfd, (struct sockaddr*) &_serverAddress, _addressLength) 
 		< 0) {
@@ -33,26 +36,38 @@ void Client::init(Enigma &machine) {
 	}
 
 	while(1) {
-		bzero(_buffer, 256);
+		bzero(_buffer, bufferLength);
         cout << "Write message:" << endl << "> ";
+    	fgets(_buffer, bufferLength - 1, stdin);
+    	if (strstr(_buffer, ":q") != '\0') {
+    		cout << "Qutting..." << endl;
+    		break;
+    	}
 
-    	fgets(_buffer, 255, stdin);
     	char* encrypt = machine.encrypt(_buffer, true);
+
+    	verbose("Encrypting message as:");
+    	verbose(encrypt);
     	if (strcmp(encrypt, "") == 0) {
     		continue;
     	}
     	strcpy(_buffer, encrypt);
 
-        cout << _buffer << endl;
+    	verbose("Sending message to client...");
         int n = write(_sockfd, _buffer, strlen(_buffer));
         if (n < 0) {
             error("could not write to socket.");
+        } else {
+        	verbose("Message sent.");
         }
 
-        bzero(_buffer, 256);
-        n = read(_sockfd, _buffer, 255);
+        bzero(_buffer, bufferLength);
+        n = read(_sockfd, _buffer, bufferLength - 1);
+        verbose("Reading encrypted message:");
+        verbose(_buffer);
+        verbose("Unencrypting...");
         strcpy(_buffer, machine.encrypt(_buffer, true));
-        cout << _buffer << endl;
+
         if (n < 0) {
             error("could not read from socket.");
         } else if (n == 0) {

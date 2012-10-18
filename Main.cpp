@@ -20,7 +20,8 @@ using namespace std;
 */
 
 bool findOption(char** start, char** end, const string &option) {
-    return find(start, end, option);
+    char** iter = find(start, end, option);
+    return (iter != end);
 }
 
 char *getNextOption(char** start, char** end, const string &option) {
@@ -33,21 +34,29 @@ char *getNextOption(char** start, char** end, const string &option) {
 }
 
 int main(int argc, char **argv) {
-
     int portno;
     char *host;
-    bool server;
-
+    bool server, verbose = false;
     if (findOption(argv, argv + argc, "-n")) {
         char *option = getNextOption(argv, argv + argc, "-n");
         if (strcmp(option, "server") == 0) {
             portno = atoi(getNextOption(argv, argv + argc, "server"));
-            argc -= 3;
+            if (findOption(argv, argv + argc, "-v")) {
+                argc -= 4;
+                verbose = true;
+            } else {
+                argc -= 3;
+            }
             server = true;
         } else if (strcmp(option, "client") == 0) {
             host = getNextOption(argv, argv + argc, "client");
             portno = atoi(getNextOption(argv, argv + argc, host));
-            argc -= 4;
+            if (findOption(argv, argv + argc, "-v")) {
+                argc -= 5;
+                verbose = true;
+            } else {
+                argc -= 4;
+            }
             server = false;
         }
     } 
@@ -99,9 +108,11 @@ int main(int argc, char **argv) {
     if (findOption(argv, argv + (argc + 1), "-n")) {
         if (server) {
             Server server(portno);
+            server.setVerboseFlag(verbose);
             server.init(machine);
         } else {
             Client client(host, portno);
+            client.setVerboseFlag(verbose);
             client.init(machine);
         }
     } else {

@@ -1,5 +1,5 @@
 CC       = g++
-CPPFLAGS = -c -Wall
+CPPFLAGS = -c -Wall -Wno-write-strings
 
 # rules for exec
 enigma: Main.o enigma.o reflector.o rotor.o plugboard.o networked.o server.o client.o
