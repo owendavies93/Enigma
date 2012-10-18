@@ -34,12 +34,6 @@ char *getNextOption(char** start, char** end, const string &option) {
 
 int main(int argc, char **argv) {
 
-    if (argc < 2) {
-        cerr << "Error - Not enough arguments given. " <<
-                 "You need at least a plugboard!" << endl;
-        _exit(1);
-    }
-
     int portno;
     char *host;
     bool server;
@@ -58,7 +52,11 @@ int main(int argc, char **argv) {
         }
     } 
 
-    else if (!strstr(argv[argc - 1], ".pb")) {
+    if (argc < 2) {
+        cerr << "Error - Not enough arguments given. " <<
+                 "You need at least a plugboard!" << endl;
+        _exit(1);
+    } else if (!strstr(argv[argc - 1], ".pb")) {
         cerr << "Error - You need to specify a .pb file for your plugboard " <<
                 "configuration." << endl;
         _exit(1);

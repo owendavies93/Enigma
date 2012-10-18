@@ -35,9 +35,15 @@ void Client::init(Enigma &machine) {
 	while(1) {
 		bzero(_buffer, 256);
         cout << "Write message:" << endl << "> ";
-        fgets(_buffer, 255, stdin);
-        strcpy(_buffer, machine.encrypt(_buffer, true));
-        cout << _buffer;
+
+    	fgets(_buffer, 255, stdin);
+    	char* encrypt = machine.encrypt(_buffer, true);
+    	if (strcmp(encrypt, "") == 0) {
+    		continue;
+    	}
+    	strcpy(_buffer, encrypt);
+
+        cout << _buffer << endl;
         int n = write(_sockfd, _buffer, strlen(_buffer));
         if (n < 0) {
             error("could not write to socket.");
@@ -45,6 +51,8 @@ void Client::init(Enigma &machine) {
 
         bzero(_buffer, 256);
         n = read(_sockfd, _buffer, 255);
+        strcpy(_buffer, machine.encrypt(_buffer, true));
+        cout << _buffer << endl;
         if (n < 0) {
             error("could not read from socket.");
         } else if (n == 0) {

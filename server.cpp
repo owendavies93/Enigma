@@ -36,6 +36,8 @@ void Server::init(Enigma &machine) {
 	while(1) {
 		bzero(_buffer,256);
         int n = read(_newsockfd, _buffer, 255);
+        strcpy(_buffer, machine.encrypt(_buffer, true));
+        cout << _buffer << endl;
         if (n < 0) { 
             error("could not read from socket.");
         } else if (n == 0) {
@@ -46,6 +48,14 @@ void Server::init(Enigma &machine) {
         bzero(_buffer,256);
         cout << "Write message:" << endl << "> ";
         fgets(_buffer, 255, stdin);
+        
+        char* encrypt = machine.encrypt(_buffer, true);
+    	if (strcmp(encrypt, "") == 0) {
+    		continue;
+    	}
+    	strcpy(_buffer, encrypt);
+
+        cout << _buffer << endl;
         n = write(_newsockfd, _buffer, strlen(_buffer));
         if (n < 0) {
             error("could not write to socket.");

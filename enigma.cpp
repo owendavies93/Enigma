@@ -56,7 +56,7 @@ char* Enigma::encrypt(char* conv, bool networking) {
             cerr << "Error - input string must be alphabetic and " << 
                     "upper case characters only (whitespace is also " << 
                     "allowed)." << endl;
-			return NULL;
+			return "";
         }
         conv[i] = encryptChar(curr);
 	}
