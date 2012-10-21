@@ -27,10 +27,11 @@ public:
 	Rotor(std::map<int, int> inMap, std::map<int, int> outMap, int num);
 	virtual int map(int orig);
 	string getName();
-	void rotate();
-	void printRotor();
-	int getRotateCount();
-	int getRotateModCount();
+    void rotate();
+    void printRotor();
+    int getRotateCount();
+    int getRotateModCount();
+    std::map<int, int>& getMap();
 };
 
 #endif

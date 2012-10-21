@@ -1,15 +1,5 @@
-CS2 Enigma
-==========
+Enigma (+networking)
+====================
 
-Sample Configuration Files and A Small Testsuite
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-To run the testsuite, in this directory run:
-
-./tests.hs <path_to_your_enigma_program>
-
-
-There are sample rotor configuration files in rotors/
-and plugboard configuration files in plugboards/
-
-There is also a completely optional, unassessed challenge in challenge/
+- Encrypts upper case, alphabetic strings using a virtual Enimga machine (circa WWII)
+- Send encrypted messages to and recieve from other "enigma machines" using socket libraries, which can be decrypted by the user at the other end provided they are using the same machine configuration (as in WWII)

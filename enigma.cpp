@@ -3,13 +3,15 @@
 #include <fstream>
 #include <vector>
 #include <cctype>
+#include <stdio.h>
+#include <string.h>
 
 #include "enigma.h"
 #include "plugboard.h"
 #include "rotor.h"
 
 const int alphabetLength = 26;
-const int asciiStart= 65;
+const int asciiStart = 65;
 
 Enigma::Enigma(int* plugboardConfig, int size) : _pb(plugboardConfig, size), 
 												 _rf() {}
@@ -47,18 +49,23 @@ void Enigma::printPlugboard() {
 	_pb.printMaps();
 }
 
-void Enigma::encrypt(string conv) {
-	for (unsigned i = 0; i < conv.length(); i++) {
-		char curr = conv[i];
+char* Enigma::encrypt(char* conv, bool networking) {
+	for (unsigned i = 0; i < strlen(conv); i++) {
+        char curr = conv[i];
         if (!((isupper(curr) && isalpha(curr)) || isspace(curr))) {
             cerr << "Error - input string must be alphabetic and " << 
                     "upper case characters only (whitespace is also " << 
                     "allowed)." << endl;
-            return;
+			return "";
         }
-	   cout << encryptChar(conv[i]);
+        conv[i] = encryptChar(curr);
 	}
-	cout << endl;
+
+	if (!networking) {
+		cout << conv << endl;
+	}
+	
+	return conv;
 }
 
 char Enigma::encryptChar(char input) {
@@ -103,4 +110,3 @@ void Enigma::rotateRotors(int num) {
 		rotateRotors(num + 1);
 	}
 }
-

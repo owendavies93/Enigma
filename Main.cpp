@@ -5,17 +5,67 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <algorithm>
 
 #include "enigma.h"
+#include "server.h"
+#include "client.h"
 
 using namespace std;
 
 /*
-    Check that CL arguments are valid (correct extensions, valid files), then
-    provide cin for input, checking that all input is valid. Use the command :q 
-    to end the program cleanly.
-*/    
+    Enigma over IP
+    ==============
+
+    Checks all command line arguments are valid, checks for -n and -v flags, 
+    initializes the server/client and the enigma machine that encrypts 
+    transferred messages.
+
+    Check report/EoIP.pdf for more details.
+*/
+
+bool findOption(char** start, char** end, const string &option) {
+    char** iter = find(start, end, option);
+    return (iter != end);
+}
+
+char *getNextOption(char** start, char** end, const string &option) {
+    char** iter = find(start, end, option);
+    if (++iter != end) {
+        return *iter;
+    } else {
+        return 0;
+    };
+}
+
 int main(int argc, char **argv) {
+    int portno;
+    char *host;
+    bool server, verbose = false;
+    if (findOption(argv, argv + argc, "-n")) {
+        char *option = getNextOption(argv, argv + argc, "-n");
+        if (strcmp(option, "server") == 0) {
+            portno = atoi(getNextOption(argv, argv + argc, "server"));
+            if (findOption(argv, argv + argc, "-v")) {
+                argc -= 4;
+                verbose = true;
+            } else {
+                argc -= 3;
+            }
+            server = true;
+        } else if (strcmp(option, "client") == 0) {
+            host = getNextOption(argv, argv + argc, "client");
+            portno = atoi(getNextOption(argv, argv + argc, host));
+            if (findOption(argv, argv + argc, "-v")) {
+                argc -= 5;
+                verbose = true;
+            } else {
+                argc -= 4;
+            }
+            server = false;
+        }
+    } 
+
     if (argc < 2) {
         cerr << "Error - Not enough arguments given. " <<
                  "You need at least a plugboard!" << endl;
@@ -60,15 +110,28 @@ int main(int argc, char **argv) {
         }
     }
 
-    string inputString;
-    while (getline(cin, inputString)) {
-        if (inputString.find(":q") != string::npos) {
-            close(0);
-            cout << "Qutting..." << endl;
+    if (strcmp(argv[argc], "-n") == 0) {
+        if (server) {
+            Server server(portno);
+            server.setVerboseFlag(verbose);
+            server.init(machine);
         } else {
-            machine.encrypt(inputString);
+            Client client(host, portno);
+            client.setVerboseFlag(verbose);
+            client.init(machine);
+        }
+    } else {
+        string inputString;
+        while (getline(cin, inputString)) {
+            if (inputString.find(":q") != string::npos) {
+                close(0);
+                cout << "Qutting..." << endl;
+            } else {
+                vector<char> cpy(inputString.size() + 1);
+                copy(inputString.begin(), inputString.end(), cpy.begin());
+                machine.encrypt(&cpy[0], false);
+            }
         }
     }
-
     return 0;
 }

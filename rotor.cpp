@@ -60,8 +60,12 @@ void Rotor::printRotor() {
 
 	cout << endl;
 
-	for (it = _outConfig.begin(); it != _outConfig.end(); ++it) {
-		cout << it->first << " => " << it->second << endl;
-	}
+    for (it = _outConfig.begin(); it != _outConfig.end(); ++it) {
+        cout << it->first << " => " << it->second << endl;
+    }
+}
 
+std::map<int, int>& Rotor::getMap() {
+    std::map<int, int>& ref = _inConfig;
+    return ref;
 }
