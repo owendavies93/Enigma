@@ -11,7 +11,7 @@
 #include "rotor.h"
 
 const int alphabetLength = 26;
-const int asciiStart= 65;
+const int asciiStart = 65;
 
 Enigma::Enigma(int* plugboardConfig, int size) : _pb(plugboardConfig, size), 
 												 _rf() {}

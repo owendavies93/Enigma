@@ -2,6 +2,13 @@
 
 using namespace std;
 
+/*
+	This class creates a server for the client to send and recieve messages to 
+	and from. It uses the C/C++ socket packages to set up a connection on a 
+	given port and listen for a client connection. It then loops alternatly 
+	between sending and receiving messages.	
+*/
+
 Server::Server(int portno) {
 	_portno = portno;
 }
@@ -37,6 +44,7 @@ void Server::init(Enigma &machine) {
 		cout << "Connected to " << _addr << endl;
 	}
 
+	// Only ever breaks out on :q
 	while(1) {
 		bzero(_buffer, bufferLength);
         int n = read(_newsockfd, _buffer, bufferLength - 1);

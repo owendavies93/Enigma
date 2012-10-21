@@ -2,6 +2,12 @@
 
 using namespace std;
 
+/*
+	This class creates a client that can communicate with instances of the 
+	Server class. It attempts to find a server on the given port and then 
+	connects.It then loops alternatly between sending and receiving messages.	
+*/
+
 Client::Client(char* hostname, int portno) {
 	_portno = portno;
 	_server = gethostbyname(hostname);

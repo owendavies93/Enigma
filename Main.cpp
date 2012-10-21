@@ -14,9 +14,14 @@
 using namespace std;
 
 /*
-    Check that CL arguments are valid (correct extensions, valid files), then
-    provide cin for input, checking that all input is valid. Use the command :q 
-    to end the program cleanly.
+    Enigma over IP
+    ==============
+
+    Checks all command line arguments are valid, checks for -n and -v flags, 
+    initializes the server/client and the enigma machine that encrypts 
+    transferred messages.
+
+    Check report/EoIP.pdf for more details.
 */
 
 bool findOption(char** start, char** end, const string &option) {
@@ -105,7 +110,8 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (findOption(argv, argv + (argc + 1), "-n")) {
+    cout << argv[0] << " - " << argc << endl;
+    if (strcmp(argv[argc], "-n") == 0) {
         if (server) {
             Server server(portno);
             server.setVerboseFlag(verbose);
