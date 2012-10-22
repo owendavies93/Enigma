@@ -5,7 +5,7 @@ using namespace std;
 /*
 	This class creates a client that can communicate with instances of the 
 	Server class. It attempts to find a server on the given port and then 
-	connects.It then loops alternatly between sending and receiving messages.	
+	connects.It then loops alternatly between sending and receiving messages.
 */
 
 Client::Client(char* hostname, int portno) {
@@ -41,6 +41,7 @@ void Client::init(Enigma &machine) {
 		cout << "Connected to " << _addr << endl;
 	}
 
+	// Only ever breaks out on :q
 	while(1) {
 		bzero(_buffer, bufferLength);
         cout << "Write message:" << endl << "> ";
